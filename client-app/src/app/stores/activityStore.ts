@@ -84,6 +84,7 @@ export default class ActivityStore {
         }
         activity.date = new Date(activity.date!);
         this.activityRegistry.set(activity.id, activity);
+        //console.log(activity);
     }
 
     private getActivity = (id: string) => {
@@ -190,6 +191,17 @@ export default class ActivityStore {
 
     clearSelectedActivity = () => {
         this.selectedActivity = undefined;
+    }
+
+    updateAttendeeFollowing = (username: string) => {
+        this.activityRegistry.forEach(activity => {
+            activity.attendees.forEach(attendee => {
+                if (attendee.username === username) {
+                    attendee.following ? attendee.followersCount -- : attendee.followersCount++;
+                    attendee.following = !attendee.following;
+                }
+            })
+        })
     }
 
 }
